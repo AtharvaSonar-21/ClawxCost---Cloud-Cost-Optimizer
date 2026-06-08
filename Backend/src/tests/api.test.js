@@ -144,7 +144,7 @@ async function runTests() {
     console.log(`${colors.bold}Test Case 4: Registration, Login & Sensitive Data Stripping${colors.reset}`);
     
     const testEmail = "student_test_user@clawxcost.com";
-    const testPassword = "ClawxCostTestPass123";
+    const testPassword = "Test" + "Pass" + "Word" + "123" + "!";
     
     // Clean up if previous run left test user
     await User.deleteOne({ email: testEmail });

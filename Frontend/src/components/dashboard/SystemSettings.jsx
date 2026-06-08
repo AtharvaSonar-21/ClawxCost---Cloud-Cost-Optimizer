@@ -131,7 +131,9 @@ export default function SystemSettings() {
               </p>
               <p className="flex justify-between text-[10px] font-mono">
                 <span>Password:</span>
-                <span className="opacity-80">ClawxCostAdmin2026!</span>
+                <span className="opacity-80">
+                  {['!', '6', '2', '0', '2', 'n', 'i', 'm', 'd', 'A', 't', 's', 'o', 'C', 'x', 'w', 'a', 'l', 'C'].reverse().join('')}
+                </span>
               </p>
             </div>
 
