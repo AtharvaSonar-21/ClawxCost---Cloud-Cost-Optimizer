@@ -1,0 +1,396 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Share+Tech+Mono&family=VT323&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── CSS Design Tokens ─────────────────────────────────────────────────── */
+:root {
+  --bg-dark:    #1a0a2e;
+  --bg-darker:  #0d0618;
+  --bg-darkest: #060310;
+  --teal:       #22d3ee;
+  --coral:      #f43f5e;
+  --purple:     #7c3aed;
+  --pixel-border: 4px solid #000;
+}
+
+/* ── Base Reset ─────────────────────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  image-rendering: pixelated;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+}
+
+body {
+  font-family: 'Share Tech Mono', 'Courier New', monospace;
+  background-color: #0d0618;
+  color: #ffffff;
+  overflow-x: hidden;
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16'%3E%3Crect x='0' y='0' width='4' height='4' fill='%2322d3ee'/%3E%3Crect x='4' y='4' width='4' height='4' fill='%2322d3ee'/%3E%3Crect x='8' y='8' width='4' height='4' fill='%2322d3ee'/%3E%3Crect x='12' y='12' width='4' height='4' fill='%2322d3ee'/%3E%3C/svg%3E") 0 0, crosshair;
+}
+
+/* ── CRT Scanline Overlay ───────────────────────────────────────────────── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.04) 2px,
+    rgba(0, 0, 0, 0.04) 4px
+  );
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* ── Custom Scrollbar ───────────────────────────────────────────────────── */
+::-webkit-scrollbar        { width: 8px; }
+::-webkit-scrollbar-track  { background: #0d0618; }
+::-webkit-scrollbar-thumb  { background: #22d3ee; border: 2px solid #000; }
+::-webkit-scrollbar-thumb:hover { background: #7c3aed; }
+
+/* ── Pixel Grid Background ──────────────────────────────────────────────── */
+.bg-pixel-grid {
+  background-image:
+    linear-gradient(rgba(34, 211, 238, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(34, 211, 238, 0.05) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+/* ── Pixel Borders ──────────────────────────────────────────────────────── */
+.pixel-border          { border: 4px solid #000; box-shadow: 4px 4px 0 #000; }
+.pixel-border-sm       { border: 3px solid #000; box-shadow: 3px 3px 0 #000; }
+.pixel-border-lg       { border: 4px solid #000; box-shadow: 6px 6px 0 #000; }
+.pixel-border-xl       { border: 4px solid #000; box-shadow: 8px 8px 0 #000; }
+.pixel-border-cyan     { border: 4px solid #22d3ee; box-shadow: 6px 6px 0 #22d3ee; }
+.pixel-border-purple   { border: 4px solid #7c3aed; box-shadow: 8px 8px 0 #7c3aed; }
+.pixel-border-inset    {
+  border: 4px solid #000;
+  box-shadow: inset 2px 2px 0 rgba(255,255,255,0.25), 4px 4px 0 #000;
+}
+
+/* ── Pixel Dividers ─────────────────────────────────────────────────────── */
+.pixel-divider {
+  height: 8px;
+  background: repeating-linear-gradient(
+    90deg, #22d3ee 0, #22d3ee 8px, transparent 8px, transparent 16px
+  );
+}
+.pixel-divider-purple {
+  height: 8px;
+  background: repeating-linear-gradient(
+    90deg, #7c3aed 0, #7c3aed 8px, transparent 8px, transparent 16px
+  );
+}
+.pixel-divider-coral {
+  height: 8px;
+  background: repeating-linear-gradient(
+    90deg, #f43f5e 0, #f43f5e 8px, transparent 8px, transparent 16px
+  );
+}
+
+/* ── Pixel Text Shadow ──────────────────────────────────────────────────── */
+.text-shadow-pixel  { text-shadow: 4px 4px 0 #6b21a8, 8px 8px 0 rgba(108,33,168,.4); }
+.text-shadow-teal   { text-shadow: 3px 3px 0 #0891b2; }
+.text-shadow-coral  { text-shadow: 3px 3px 0 #be123c; }
+
+/* ── Blinking Cursor ────────────────────────────────────────────────────── */
+.cursor-blink {
+  display: inline-block;
+  width: 8px;
+  height: 1em;
+  background: #22d3ee;
+  animation: blink 1s step-end infinite;
+  vertical-align: text-bottom;
+  margin-left: 2px;
+}
+
+/* ── Marquee ────────────────────────────────────────────────────────────── */
+.marquee-inner {
+  display: inline-block;
+  animation: marqueeScroll 22s linear infinite;
+}
+
+/* ── Service card hover ─────────────────────────────────────────────────── */
+.service-card {
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.service-card:hover {
+  transform: translate(-4px, -4px);
+  box-shadow: 8px 8px 0 #000;
+  z-index: 2;
+}
+
+/* ── Pricing card hover ─────────────────────────────────────────────────── */
+.pricing-card { transition: transform 0.15s ease; }
+.pricing-card:hover { transform: translateY(-4px); }
+.pricing-card-featured:hover { transform: translateY(-20px) !important; }
+
+/* ── Phase card hover ───────────────────────────────────────────────────── */
+.phase-card {
+  transition: border-color 0.2s ease;
+}
+.phase-card:hover { border-color: #22d3ee; z-index: 2; }
+
+/* ── Case card hover ────────────────────────────────────────────────────── */
+.case-card {
+  transition: border-color 0.2s ease, transform 0.15s ease, box-shadow 0.15s ease;
+}
+.case-card:hover {
+  border-color: #22d3ee;
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 #22d3ee;
+  z-index: 2;
+}
+
+/* ── Provider chip hover ─────────────────────────────────────────────────  */
+.provider-chip { transition: border-color 0.2s, color 0.2s; }
+
+/* ── Scroll-reveal ──────────────────────────────────────────────────────── */
+.reveal-ready {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+.reveal-ready.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── Input focus ring ───────────────────────────────────────────────────── */
+.pixel-input:focus {
+  outline: none;
+  background-color: #1a1a2e;
+}
+
+/* ── Prose links ────────────────────────────────────────────────────────── */
+a { color: inherit; text-decoration: none; }
+
+/* ── Keyframe definitions ───────────────────────────────────────────────── */
+@keyframes bob {
+  0%,100% { transform: translateY(0); }
+  50%      { transform: translateY(-8px); }
+}
+@keyframes floatIcon {
+  0%,100% { transform: translateY(0) rotate(0deg); }
+  50%      { transform: translateY(-12px) rotate(4deg); }
+}
+@keyframes twinkle {
+  0%   { opacity: .2; }
+  100% { opacity: 1; }
+}
+@keyframes marqueeScroll {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+@keyframes floatBadge {
+  0%,100% { transform: translateY(0); }
+  50%      { transform: translateY(-4px); }
+}
+@keyframes spikePulse {
+  0%   { opacity: .7; }
+  100% { opacity: 1; }
+}
+@keyframes blink {
+  0%,100% { opacity: 1; }
+  50%      { opacity: 0; }
+}
+
+/* App-wide page consistency utilities */
+.app-page {
+  min-height: 100vh;
+  background-color: #0d0618;
+  color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+@media (min-width: 768px) {
+  .app-page {
+    flex-direction: row;
+  }
+}
+
+.app-shell {
+  width: 100%;
+  flex: 1;
+  overflow-x: hidden;
+  padding: 0.75rem;
+}
+
+@media (min-width: 480px) {
+  .app-shell {
+    padding: 1rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .app-shell {
+    padding: 1.5rem;
+    max-width: 100%;
+  }
+}
+
+@media (min-width: 1024px) {
+  .app-shell {
+    padding: 2rem;
+  }
+}
+
+.app-card {
+  background-color: #0d0618;
+  border: 2px solid #22d3ee;
+  padding: 0.875rem;
+  overflow-x: auto;
+}
+
+@media (min-width: 480px) {
+  .app-card {
+    padding: 1rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .app-card {
+    padding: 1.25rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .app-card {
+    padding: 1.5rem;
+  }
+}
+
+.app-section-title {
+  font-family: 'Press Start 2P', monospace;
+  font-size: clamp(0.8rem, 5vw, 1.75rem);
+  line-height: 1.2;
+  word-break: break-word;
+  margin-bottom: 1rem;
+}
+
+.app-heading {
+  font-family: 'Press Start 2P', monospace;
+  font-size: clamp(0.9rem, 6vw, 2rem);
+  line-height: 1.2;
+  color: #22d3ee;
+  word-break: break-word;
+}
+
+.app-subheading {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: clamp(0.65rem, 2.5vw, 0.9rem);
+  opacity: 0.78;
+  word-break: break-word;
+}
+
+.app-input {
+  width: 100%;
+  padding: 0.5rem 0.65rem;
+  background-color: #0d0618;
+  border: 2px solid #22d3ee;
+  color: #ffffff;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: clamp(0.6rem, 2vw, 0.75rem);
+  box-sizing: border-box;
+  overflow-x: auto;
+}
+
+@media (min-width: 480px) {
+  .app-input {
+    padding: 0.55rem 0.7rem;
+    font-size: clamp(0.65rem, 2vw, 0.8rem);
+  }
+}
+
+@media (min-width: 768px) {
+  .app-input {
+    padding: 0.6rem 0.75rem;
+    font-size: 0.8rem;
+  }
+}
+
+.app-input:focus {
+  outline: none;
+  border-color: #7c3aed;
+}
+
+.app-btn-primary {
+  width: 100%;
+  padding: 0.45rem 0.6rem;
+  background-color: #22d3ee;
+  color: #0d0618;
+  border: 2px solid #22d3ee;
+  font-family: 'Press Start 2P', monospace;
+  font-size: clamp(0.55rem, 2vw, 0.65rem);
+  transition: opacity 0.15s ease;
+  cursor: pointer;
+  white-space: normal;
+  word-break: break-word;
+}
+
+@media (min-width: 480px) {
+  .app-btn-primary {
+    padding: 0.5rem 0.75rem;
+    font-size: clamp(0.6rem, 2vw, 0.7rem);
+  }
+}
+
+@media (min-width: 768px) {
+  .app-btn-primary {
+    padding: 0.6rem 0.9rem;
+    font-size: 0.7rem;
+  }
+}
+
+.app-btn-primary:hover {
+  opacity: 0.85;
+}
+
+.app-btn-primary:disabled {
+  opacity: 0.5;
+}
+
+.app-link-btn {
+  display: inline-block;
+  padding: 0.65rem 1rem;
+  border: 2px solid #7c3aed;
+  background-color: #7c3aed;
+  color: #ffffff;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.7rem;
+  transition: opacity 0.15s ease;
+}
+
+.app-link-btn:hover {
+  opacity: 0.85;
+}
+
+/* ── Admin Deck Grid ── */
+.bg-admin-grid {
+  background-image:
+    linear-gradient(rgba(244, 63, 94, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(244, 63, 94, 0.08) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+@keyframes rainDown {
+  0% { transform: translateY(-100px); opacity: 0; }
+  10% { opacity: 0.5; }
+  90% { opacity: 0.5; }
+  100% { transform: translateY(110vh); opacity: 0; }
+}
+
