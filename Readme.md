@@ -130,19 +130,10 @@ clawxcost/
     └── middleware/              JWT verification, error handling, request logging
 ```
 
----
-
-## 8. Engineering Decisions
-
-- **Why MongoDB over a relational DB?** Billing data shape differs meaningfully across AWS, Azure, and GCP (different service names, region formats, cost dimensions). A flexible-schema document store avoided a rigid migration-heavy relational design while still normalizing records into a common shape at the application layer.
-- **Why JWT over server-side sessions?** Stateless auth removes the need for a session store and scales horizontally without sticky sessions — relevant even at this project's scale as a forward-looking choice.
-- **Why Google OAuth instead of building our own auth?** Removes password storage liability entirely and reduces the auth attack surface to token verification.
-- **Why CSV upload as the primary ingestion method (rather than live billing API integration)?** Live integration with AWS Cost Explorer / Azure Cost Management / GCP Billing requires per-provider credential handling and API quota management. CSV/manual ingestion was chosen to keep the project's security surface simple and auditable while still proving out the normalization and analysis pipeline. Live API ingestion is a natural next step — see [Future Roadmap](#12-future-roadmap).
-- **Why REST over GraphQL?** Simpler mental model for a small number of well-defined resources (billing records, users, anomalies); GraphQL's flexibility wasn't needed at this scale.
 
 ---
 
-## 9. Software Engineering Highlights
+## 8. Software Engineering Highlights
 
 - Modular backend (routes / controllers / services / models / middleware separation)
 - REST API design with consistent JWT-based auth middleware
@@ -152,7 +143,7 @@ clawxcost/
 
 ---
 
-## 10. Cloud Engineering Highlights
+## 9. Cloud Engineering Highlights
 
 | Capability | Status |
 |---|---|
@@ -174,7 +165,7 @@ No item above is claimed as implemented unless the current codebase actually doe
 
 ---
 
-## 11. Security
+## 10. Security
 
 - **Google OAuth 2.0** — no passwords stored anywhere in the system.
 - **JWT sessions** — 24-hour expiry, verified on every request via middleware.
@@ -184,14 +175,14 @@ No item above is claimed as implemented unless the current codebase actually doe
 
 ---
 
-## 12. Scalability
+## 11. Scalability
 
 **Current architecture.** Single Express instance, single MongoDB instance, synchronous request-time processing pipeline.
 
 **Current bottleneck.** The normalize → trend → anomaly sequence runs inline within the upload request. A very large CSV, or many concurrent uploads, would increase request latency and could exhaust connection pools under load.
 
-**How this would scale:**
-1. Move the normalize/trend/anomaly pipeline into a background job queue (e.g. BullMQ + Redis), so upload requests return immediately and processing happens asynchronously.
+**Scalability Factor :**
+1. Move the normalize/trend/anomaly pipeline into a background job queue, so upload requests return immediately and processing happens asynchronously.
 2. Partition/shard queue work by user or provider to bound worst-case processing time per job.
 3. Add read replicas or move heavy aggregation queries to a dedicated analytics store if trend calculations become a bottleneck at higher record volumes.
 
@@ -208,7 +199,7 @@ flowchart LR
 
 ---
 
-## 13. Performance Optimizations
+## 12. Performance Optimizations
 
 | Optimization | Status |
 |---|---|
@@ -220,7 +211,7 @@ flowchart LR
 
 ---
 
-## 14. Deployment
+## 13. Deployment
 
 **Current: local development only.**
 
@@ -245,7 +236,7 @@ flowchart LR
 
 ---
 
-## 15. Environment Variables
+## 14. Environment Variables
 
 **Backend/.env**
 
@@ -267,7 +258,7 @@ flowchart LR
 
 ---
 
-## 16. Installation Guide
+## 15. Installation Guide
 
 ```bash
 git clone https://github.com/your-org/clawxcost.git
@@ -286,7 +277,7 @@ curl http://localhost:5000/health
 
 ---
 
-## 17. API Endpoints
+## 16. API Endpoints
 
 | Method | Endpoint | Description | Auth Required |
 |---|---|---|---|
@@ -300,7 +291,7 @@ curl http://localhost:5000/health
 
 ---
 
-## 18. Future Roadmap
+## 17. Future Roadmap
 
 **Short-term:** async job queue for the processing pipeline, database indexing, pagination on record lists.
 
@@ -310,15 +301,15 @@ curl http://localhost:5000/health
 
 ---
 
-## 19. Contributing
+## 18. Contributing
 
 Issues and PRs welcome. Please open an issue describing the change before submitting a pull request for anything beyond a minor fix.
 
-## 20. License
+## 19. License
 
 MIT
 
-## 21. Contact
+## 20. Contact
 
 - GitHub: `https://github.com/AtharvaSonar-21`
 - LinkedIn: `https://www.linkedin.com/in/atharva-sonar-40653b221`
