@@ -3,7 +3,7 @@
  * Handles all HTTP requests with consistent error handling and response format
  */
 
-const API_BASE_URL = String(import.meta.env.VITE_API_URL || 'http://localhost:5000')
+const API_BASE_URL = String(import.meta.env.VITE_API_URL)
   .trim()
   .replace(/^['"]|['"]$/g, '');
 
